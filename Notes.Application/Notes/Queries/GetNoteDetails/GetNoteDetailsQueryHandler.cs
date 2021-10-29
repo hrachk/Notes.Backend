@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Notes.Application.Notes.Queries.GetNoteDetails
 {
-    public class GetNoteDetailsQueryHandler : IRequestHandler<GetNoteDetailsQuery, NoteDeatilsVm>
+    public class GetNoteDetailsQueryHandler : IRequestHandler<GetNoteDetailsQuery, NoteDetailsVm>
     {
         private readonly INotesDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ namespace Notes.Application.Notes.Queries.GetNoteDetails
         public GetNoteDetailsQueryHandler(INotesDbContext dbContext, IMapper mapper) =>
             (_dbContext, _mapper) = (dbContext, mapper);
         
-        public async Task<NoteDeatilsVm> Handle(GetNoteDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<NoteDetailsVm> Handle(GetNoteDetailsQuery request, CancellationToken cancellationToken)
         {
             var entitiy = await _dbContext.Notes.FirstOrDefaultAsync(note =>
             note.Id == request.Id, cancellationToken);
@@ -27,7 +27,7 @@ namespace Notes.Application.Notes.Queries.GetNoteDetails
                 throw new NotFoundException(nameof(Note), request.Id);
             }
 
-            return _mapper.Map<NoteDeatilsVm>(entitiy); 
+            return _mapper.Map<NoteDetailsVm>(entitiy); 
         }
     }
 }
